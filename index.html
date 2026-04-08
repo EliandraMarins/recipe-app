@@ -3,464 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Recipe Book (Cloud)</title>
+  <title>My Recipe Book (Secure)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --cream: #FAF7F2;
-      --cream-dark: #F0EBE1;
-      --ink: #1A1714;
-      --ink-mid: #4A4540;
-      --ink-light: #8A8480;
-      --accent: #C2440E;
-      --accent-light: #F5E8E2;
-      --border: rgba(26,23,20,0.12);
-      --border-strong: rgba(26,23,20,0.25);
-      --font-display: 'Playfair Display', Georgia, serif;
-      --font-body: 'DM Sans', sans-serif;
-      --radius: 4px;
-      --radius-lg: 10px;
+      --cream: #FAF7F2; --cream-dark: #F0EBE1; --ink: #1A1714; --ink-mid: #4A4540;
+      --ink-light: #8A8480; --accent: #C2440E; --accent-light: #F5E8E2;
+      --border: rgba(26,23,20,0.12); --border-strong: rgba(26,23,20,0.25);
+      --font-display: 'Playfair Display', Georgia, serif; --font-body: 'DM Sans', sans-serif;
+      --radius: 4px; --radius-lg: 10px;
     }
-
-    body {
-      font-family: var(--font-body);
-      background: var(--cream);
-      color: var(--ink);
-      min-height: 100vh;
-    }
-
-    /* Header */
-    header {
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      background: var(--cream);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .header-inner {
-      max-width: 960px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-    }
-
-    .logo {
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--ink);
-      letter-spacing: -0.02em;
-    }
-
-    .logo span {
-      color: var(--accent);
-    }
-
-    /* Main */
-    main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 2.5rem 2rem 4rem;
-    }
-
-    .page-intro {
-      margin-bottom: 2.5rem;
-    }
-
-    .page-intro h1 {
-      font-family: var(--font-display);
-      font-size: clamp(32px, 5vw, 48px);
-      font-weight: 500;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 0.5rem;
-      color: var(--ink);
-    }
-
-    .page-intro p {
-      font-size: 15px;
-      color: var(--ink-light);
-      font-weight: 300;
-    }
-
-    .toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .search-wrap {
-      position: relative;
-      flex: 1;
-      min-width: 200px;
-      max-width: 340px;
-    }
-
-    .search-wrap svg {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--ink-light);
-      pointer-events: none;
-    }
-
-    .search-wrap input {
-      width: 100%;
-      padding: 9px 12px 9px 36px;
-      border: 1px solid var(--border-strong);
-      border-radius: var(--radius);
-      font-family: var(--font-body);
-      font-size: 14px;
-      background: white;
-      color: var(--ink);
-      outline: none;
-    }
-
-    .search-wrap input:focus { border-color: var(--accent); }
-    .search-wrap input::placeholder { color: var(--ink-light); }
-
-    .btn {
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 500;
-      border-radius: var(--radius);
-      cursor: pointer;
-      transition: all 0.15s;
-      padding: 9px 20px;
-      border: none;
-      white-space: nowrap;
-    }
-
-    .btn-primary {
-      background: var(--ink);
-      color: var(--cream);
-    }
+    body { font-family: var(--font-body); background: var(--cream); color: var(--ink); min-height: 100vh; }
+    header { border-bottom: 1px solid var(--border); padding: 0 2rem; background: var(--cream); position: sticky; top: 0; z-index: 10; }
+    .header-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--ink); letter-spacing: -0.02em; }
+    .logo span { color: var(--accent); }
+    main { max-width: 960px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
+    .page-intro { margin-bottom: 2.5rem; }
+    .page-intro h1 { font-family: var(--font-display); font-size: clamp(32px, 5vw, 48px); font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 0.5rem; }
+    .page-intro p { font-size: 15px; color: var(--ink-light); font-weight: 300; }
+    .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .search-wrap { position: relative; flex: 1; min-width: 200px; max-width: 340px; }
+    .search-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--ink-light); pointer-events: none; }
+    .search-wrap input { width: 100%; padding: 9px 12px 9px 36px; border: 1px solid var(--border-strong); border-radius: var(--radius); font-size: 14px; outline: none; }
+    .btn { font-family: var(--font-body); font-size: 14px; font-weight: 500; border-radius: var(--radius); cursor: pointer; transition: all 0.15s; padding: 9px 20px; border: none; white-space: nowrap; }
+    .btn-primary { background: var(--ink); color: var(--cream); }
     .btn-primary:hover { background: var(--accent); }
-
-    .btn-outline {
-      background: transparent;
-      border: 1px solid var(--border-strong);
-      color: var(--ink-mid);
-    }
-    .btn-outline:hover { border-color: var(--ink); color: var(--ink); }
-
-    .btn-ghost {
-      background: transparent;
-      border: none;
-      color: var(--ink-light);
-      padding: 6px 10px;
-    }
-    .btn-ghost:hover { color: var(--ink); }
-
-    .btn-danger {
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--accent);
-      padding: 8px 16px;
-    }
-    .btn-danger:hover { background: var(--accent-light); border-color: var(--accent); }
-
-    /* Recipe grid */
-    .recipe-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      background: var(--border);
-    }
-
-    .recipe-card {
-      background: white;
-      padding: 1.25rem 1.5rem;
-      cursor: pointer;
-      transition: background 0.12s;
-    }
-
+    .btn-outline { background: transparent; border: 1px solid var(--border-strong); color: var(--ink-mid); }
+    .btn-ghost { background: transparent; border: none; color: var(--ink-light); padding: 6px 10px; }
+    .btn-danger { background: transparent; color: var(--accent); padding: 8px 16px; }
+    .recipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--border); }
+    .recipe-card { background: white; padding: 1.25rem 1.5rem; cursor: pointer; }
     .recipe-card:hover { background: var(--cream); }
-
-    .card-tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    .card-name {
-      font-family: var(--font-display);
-      font-size: 18px;
-      font-weight: 500;
-      color: var(--ink);
-      line-height: 1.3;
-      margin-bottom: 6px;
-    }
-
-    .card-servings {
-      font-size: 12px;
-      color: var(--ink-light);
-      margin-bottom: 10px;
-    }
-
-    .card-preview {
-      font-size: 13px;
-      color: var(--ink-mid);
-      line-height: 1.5;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .card-arrow {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 12px;
-    }
-
-    .card-arrow svg { color: var(--ink-light); transition: color 0.12s, transform 0.12s; }
-    .recipe-card:hover .card-arrow svg { color: var(--accent); transform: translateX(3px); }
-
-    /* Empty */
-    .empty-state {
-      text-align: center;
-      padding: 5rem 1rem;
-      border: 1px dashed var(--border-strong);
-      border-radius: var(--radius-lg);
-    }
-
-    .empty-state .empty-icon {
-      font-size: 48px;
-      margin-bottom: 1rem;
-    }
-
-    .empty-state h2 {
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: 6px;
-    }
-
-    .empty-state p {
-      font-size: 14px;
-      color: var(--ink-light);
-      margin-bottom: 1.5rem;
-    }
-
-    /* Modal */
-    .overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(26,23,20,0.5);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      backdrop-filter: blur(2px);
-    }
-
+    .card-tag { display: inline-block; font-size: 11px; font-weight: 500; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .card-name { font-family: var(--font-display); font-size: 18px; font-weight: 500; margin-bottom: 6px; }
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(26,23,20,0.5); z-index: 100; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(2px); }
     .overlay.active { display: flex; }
-
-    .modal {
-      background: var(--cream);
-      border-radius: var(--radius-lg);
-      width: 100%;
-      max-width: 560px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.2);
-    }
-
-    .modal-head {
-      padding: 1.5rem 1.5rem 1rem;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 1rem;
-      position: sticky;
-      top: 0;
-      background: var(--cream);
-      z-index: 1;
-    }
-
-    .modal-head h2 {
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 500;
-      color: var(--ink);
-      line-height: 1.2;
-    }
-
-    .modal-body { padding: 1.25rem 1.5rem; }
-
-    .modal-foot {
-      padding: 1rem 1.5rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      background: var(--cream);
-    }
-
-    .modal-foot-right { display: flex; gap: 8px; }
-
-    /* Form */
+    .modal { background: var(--cream); border-radius: var(--radius-lg); width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; }
+    .modal-head { padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; position: sticky; top: 0; background: var(--cream); }
+    .modal-body { padding: 1.5rem; }
+    .modal-foot { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--cream); }
     .field { margin-bottom: 1.1rem; }
-
-    .field label {
-      display: block;
-      font-size: 12px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--ink-mid);
-      margin-bottom: 6px;
-    }
-
-    .field input,
-    .field textarea,
-    .field select {
-      width: 100%;
-      padding: 9px 12px;
-      border: 1px solid var(--border-strong);
-      border-radius: var(--radius);
-      font-family: var(--font-body);
-      font-size: 14px;
-      background: white;
-      color: var(--ink);
-      outline: none;
-      resize: vertical;
-      transition: border-color 0.12s;
-    }
-
-    .field input:focus,
-    .field textarea:focus { border-color: var(--accent); }
-    .field input::placeholder,
-    .field textarea::placeholder { color: var(--ink-light); }
-
-    .field textarea { line-height: 1.6; min-height: 100px; }
-
-    .field-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    /* View modal */
-    .view-meta {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 1.25rem;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 12px;
-      font-weight: 500;
-      padding: 3px 10px;
-      border-radius: 100px;
-      border: 1px solid var(--border-strong);
-      color: var(--ink-mid);
-      background: white;
-    }
-
-    .pill.accent {
-      background: var(--accent-light);
-      border-color: transparent;
-      color: var(--accent);
-    }
-
-    .section-label {
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--ink-light);
-      margin-bottom: 10px;
-    }
-
-    .ingredient-list {
-      list-style: none;
-      margin-bottom: 1.5rem;
-    }
-
-    .ingredient-list li {
-      font-size: 14px;
-      color: var(--ink);
-      padding: 6px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-    }
-
-    .ingredient-list li::before {
-      content: '';
-      display: inline-block;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-      position: relative;
-      top: -1px;
-    }
-
-    .prep-text {
-      font-size: 15px;
-      color: var(--ink);
-      line-height: 1.8;
-      white-space: pre-wrap;
-    }
-
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 1.25rem 0;
-    }
-
-    /* Count badge */
-    .count-badge {
-      font-size: 13px;
-      color: var(--ink-light);
-    }
-
-    /* No results */
-    .no-results {
-      text-align: center;
-      padding: 3rem;
-      color: var(--ink-light);
-      font-size: 14px;
-      background: white;
-    }
-
-    @media (max-width: 600px) {
-      main { padding: 1.5rem 1rem 3rem; }
-      .field-row { grid-template-columns: 1fr; }
-      .toolbar { flex-direction: column; align-items: stretch; }
-      .search-wrap { max-width: none; }
-    }
+    .field label { display: block; font-size: 12px; font-weight: 500; text-transform: uppercase; margin-bottom: 6px; }
+    .field input, .field textarea { width: 100%; padding: 9px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius); font-size: 14px; outline: none; }
+    .pill { display: inline-flex; padding: 3px 10px; border-radius: 100px; border: 1px solid var(--border-strong); font-size: 12px; margin-right: 5px; }
+    .accent { background: var(--accent-light); color: var(--accent); border: none; }
+    .prep-text { white-space: pre-wrap; line-height: 1.6; }
+    footer { text-align: center; padding: 40px; opacity: 0.4; }
   </style>
 </head>
 <body>
@@ -480,9 +71,7 @@
 
   <div class="toolbar">
     <div class="search-wrap">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-      </svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" id="search" placeholder="Search recipes…" oninput="render()" />
     </div>
     <span class="count-badge" id="count"></span>
@@ -491,41 +80,28 @@
   <div id="list"></div>
 </main>
 
+<footer>
+  <button id="admin-btn" class="btn btn-ghost" onclick="login()">Admin Login</button>
+</footer>
+
 <div class="overlay" id="modal-add" onclick="overlayClick(event,'modal-add')">
   <div class="modal">
     <div class="modal-head">
       <h2 id="form-title">New recipe</h2>
-      <button class="btn btn-ghost" onclick="closeModal('modal-add')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-add')">✕</button>
     </div>
     <div class="modal-body">
-      <div class="field">
-        <label>Recipe name *</label>
-        <input type="text" id="f-name" placeholder="e.g. Spaghetti carbonara" />
+      <div class="field"><label>Name *</label><input type="text" id="f-name" /></div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+        <div class="field"><label>Category</label><input type="text" id="f-category" /></div>
+        <div class="field"><label>Servings</label><input type="text" id="f-servings" /></div>
       </div>
-      <div class="field-row">
-        <div class="field">
-          <label>Category</label>
-          <input type="text" id="f-category" placeholder="e.g. Pasta, Dessert" />
-        </div>
-        <div class="field">
-          <label>Servings</label>
-          <input type="text" id="f-servings" placeholder="e.g. 2 people" />
-        </div>
-      </div>
-      <div class="field">
-        <label>Ingredients</label>
-        <textarea id="f-ingredients" rows="6" placeholder="One ingredient per line:&#10;200g spaghetti&#10;2 eggs&#10;100g pancetta&#10;50g pecorino"></textarea>
-      </div>
-      <div class="field">
-        <label>Preparation</label>
-        <textarea id="f-preparation" rows="7" placeholder="Describe the steps…"></textarea>
-      </div>
+      <div class="field"><label>Ingredients</label><textarea id="f-ingredients" rows="5"></textarea></div>
+      <div class="field"><label>Preparation</label><textarea id="f-preparation" rows="5"></textarea></div>
     </div>
     <div class="modal-foot">
       <div></div>
-      <div class="modal-foot-right">
+      <div style="display:flex; gap:8px;">
         <button class="btn btn-outline" onclick="closeModal('modal-add')">Cancel</button>
         <button class="btn btn-primary" onclick="save()">Save recipe</button>
       </div>
@@ -537,37 +113,25 @@
   <div class="modal">
     <div class="modal-head">
       <h2 id="v-name"></h2>
-      <button class="btn btn-ghost" onclick="closeModal('modal-view')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
+      <button class="btn btn-ghost" onclick="closeModal('modal-view')">✕</button>
     </div>
     <div class="modal-body">
-      <div class="view-meta" id="v-meta"></div>
-      <div class="section-label">Ingredients</div>
-      <ul class="ingredient-list" id="v-ingredients"></ul>
-      <hr class="divider" />
-      <div class="section-label">Preparation</div>
+      <div id="v-meta" style="margin-bottom:15px;"></div>
+      <div style="font-weight:600; font-size:12px; margin-bottom:10px; color:var(--ink-light)">INGREDIENTS</div>
+      <ul id="v-ingredients" style="margin-bottom:20px; list-style:none;"></ul>
+      <div style="font-weight:600; font-size:12px; margin-bottom:10px; color:var(--ink-light)">PREPARATION</div>
       <p class="prep-text" id="v-prep"></p>
     </div>
-    <div class="modal-foot">
-      <button class="btn btn-danger" onclick="deleteRecipe()">Delete recipe</button>
-      <div class="modal-foot-right">
-        <button class="btn btn-outline" onclick="editFromView()">Edit</button>
-        <button class="btn btn-outline" onclick="closeModal('modal-view')">Close</button>
+    <div class="modal-foot" id="view-footer">
       </div>
-    </div>
   </div>
 </div>
 
 <script type="module">
-  // FIREBASE IMPORTS
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { 
-    getFirestore, collection, addDoc, getDocs, 
-    updateDoc, deleteDoc, doc, query, orderBy 
-  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
-  // YOUR CONFIG
   const firebaseConfig = {
     apiKey: "AIzaSyAJKH90y8jl9u3BHXZ9USQjysflqP-m8EE",
     authDomain: "my-recipe-book-40408.firebaseapp.com",
@@ -578,151 +142,103 @@
     measurementId: "G-HZT9ME12PF"
   };
 
-  // INITIALIZATION
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
   const recipesCol = collection(db, "recipes");
 
+  // --- ADMIN SETTINGS ---
+  const ADMIN_EMAIL = "your-email@gmail.com"; // <-- CHANGE THIS TO YOUR EMAIL
+  let isAdmin = false;
   let recipes = [];
   let editingId = null;
   let viewingId = null;
 
-  // CLOUD LOGIC
+  // Listen for Auth changes
+  onAuthStateChanged(auth, (user) => {
+    isAdmin = user && user.email === ADMIN_EMAIL;
+    document.getElementById('admin-btn').textContent = user ? `Logout (${user.displayName})` : "Admin Login";
+    document.getElementById('admin-btn').onclick = user ? logout : login;
+    render(); 
+  });
+
+  window.login = async () => await signInWithPopup(auth, provider);
+  window.logout = async () => await signOut(auth);
+
   async function loadRecipes() {
-    try {
-      const q = query(recipesCol, orderBy("name"));
-      const querySnapshot = await getDocs(q);
-      recipes = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      render();
-    } catch (e) {
-      console.error("Load failed", e);
-    }
+    const q = query(recipesCol, orderBy("name"));
+    const snap = await getDocs(q);
+    recipes = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    render();
   }
 
   window.save = async function() {
     const name = document.getElementById('f-name').value.trim();
-    if (!name) { document.getElementById('f-name').focus(); return; }
-
+    if (!name) return;
     const data = {
-      name,
-      category: document.getElementById('f-category').value.trim(),
-      servings: document.getElementById('f-servings').value.trim(),
-      ingredients: document.getElementById('f-ingredients').value.trim(),
-      preparation: document.getElementById('f-preparation').value.trim()
+      name, category: document.getElementById('f-category').value,
+      servings: document.getElementById('f-servings').value,
+      ingredients: document.getElementById('f-ingredients').value,
+      preparation: document.getElementById('f-preparation').value
     };
-
-    try {
-      if (editingId) {
-        await updateDoc(doc(db, "recipes", editingId), data);
-      } else {
-        await addDoc(recipesCol, data);
-      }
-      closeModal('modal-add');
-      loadRecipes();
-    } catch (e) {
-      console.error("Save failed", e);
-    }
+    editingId ? await updateDoc(doc(db, "recipes", editingId), data) : await addDoc(recipesCol, data);
+    closeModal('modal-add');
+    loadRecipes();
   };
 
   window.deleteRecipe = async function() {
     if (!viewingId || !confirm('Delete from cloud?')) return;
-    try {
-      await deleteDoc(doc(db, "recipes", viewingId));
-      closeModal('modal-view');
-      loadRecipes();
-    } catch (e) {
-      console.error("Delete failed", e);
-    }
+    await deleteDoc(doc(db, "recipes", viewingId));
+    closeModal('modal-view');
+    loadRecipes();
   };
 
-  // UI LOGIC
   window.render = function() {
-    const q = document.getElementById('search').value.trim().toLowerCase();
-    const filtered = q
-      ? recipes.filter(r => 
-          r.name.toLowerCase().includes(q) || 
-          (r.category || '').toLowerCase().includes(q)
-        )
-      : recipes;
-
-    const el = document.getElementById('list');
-    const count = document.getElementById('count');
-
-    if (!recipes.length) {
-      count.textContent = '';
-      el.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-icon">🍳</div>
-          <h2>No recipes yet</h2>
-          <p>Start building your cloud collection.</p>
-          <button class="btn btn-primary" onclick="openAdd()">+ Add your first recipe</button>
-        </div>`;
+    const q = document.getElementById('search').value.toLowerCase();
+    const filtered = recipes.filter(r => r.name.toLowerCase().includes(q));
+    const list = document.getElementById('list');
+    
+    if(!recipes.length) {
+      list.innerHTML = `<div style="text-align:center; padding:50px;"><h2>🍳 No recipes yet</h2></div>`;
       return;
     }
 
-    count.textContent = filtered.length + ' recipe' + (filtered.length !== 1 ? 's' : '');
-    
-    el.innerHTML = '<div class="recipe-grid">' + filtered.map(r => `
+    list.innerHTML = '<div class="recipe-grid">' + filtered.map(r => `
       <div class="recipe-card" onclick="openView('${r.id}')">
         ${r.category ? `<div class="card-tag">${esc(r.category)}</div>` : ''}
         <div class="card-name">${esc(r.name)}</div>
-        ${r.servings ? `<div class="card-servings">Serves ${esc(r.servings)}</div>` : ''}
-        <div class="card-arrow">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
       </div>`).join('') + '</div>';
-  };
-
-  window.openAdd = function() {
-    editingId = null;
-    document.getElementById('form-title').textContent = 'New recipe';
-    ['name','category','servings','ingredients','preparation'].forEach(f =>
-      document.getElementById('f-' + f).value = '');
-    openModal('modal-add');
   };
 
   window.openView = function(id) {
     viewingId = id;
     const r = recipes.find(x => x.id === id);
-    if (!r) return;
     document.getElementById('v-name').textContent = r.name;
     document.getElementById('v-meta').innerHTML = `
       ${r.category ? `<span class="pill accent">${esc(r.category)}</span>` : ''}
       ${r.servings ? `<span class="pill">Serves ${esc(r.servings)}</span>` : ''}`;
-    document.getElementById('v-ingredients').innerHTML = (r.ingredients || '').split('\n')
-      .filter(Boolean).map(i => `<li>${esc(i)}</li>`).join('');
+    document.getElementById('v-ingredients').innerHTML = r.ingredients.split('\n').map(i => `<li>• ${esc(i)}</li>`).join('');
     document.getElementById('v-prep').textContent = r.preparation;
+    
+    // Authorization Check: Show/Hide Edit & Delete
+    const foot = document.getElementById('view-footer');
+    foot.innerHTML = `
+      ${isAdmin ? `<button class="btn btn-danger" onclick="deleteRecipe()">Delete</button>` : '<div></div>'}
+      <div style="display:flex; gap:8px;">
+        ${isAdmin ? `<button class="btn btn-outline" onclick="editFromView()">Edit</button>` : ''}
+        <button class="btn btn-outline" onclick="closeModal('modal-view')">Close</button>
+      </div>`;
     openModal('modal-view');
   };
 
-  window.editFromView = function() {
-    const r = recipes.find(x => x.id === viewingId);
-    if (!r) return;
-    closeModal('modal-view');
-    editingId = r.id;
-    document.getElementById('form-title').textContent = 'Edit recipe';
-    document.getElementById('f-name').value = r.name;
-    document.getElementById('f-category').value = r.category || '';
-    document.getElementById('f-servings').value = r.servings || '';
-    document.getElementById('f-ingredients').value = r.ingredients || '';
-    document.getElementById('f-preparation').value = r.preparation || '';
-    openModal('modal-add');
-  };
-
-  // HELPERS
-  function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  window.openAdd = () => { editingId = null; document.getElementById('form-title').textContent = 'New Recipe'; ['name','category','servings','ingredients','preparation'].forEach(f => document.getElementById('f-'+f).value = ''); openModal('modal-add'); };
+  window.editFromView = () => { const r = recipes.find(x => x.id === viewingId); closeModal('modal-view'); editingId = r.id; document.getElementById('form-title').textContent = 'Edit Recipe'; document.getElementById('f-name').value = r.name; document.getElementById('f-category').value = r.category; document.getElementById('f-servings').value = r.servings; document.getElementById('f-ingredients').value = r.ingredients; document.getElementById('f-preparation').value = r.preparation; openModal('modal-add'); };
+  function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
   window.openModal = (id) => document.getElementById(id).classList.add('active');
   window.closeModal = (id) => document.getElementById(id).classList.remove('active');
   window.overlayClick = (e, id) => { if (e.target === e.currentTarget) closeModal(id); };
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeModal('modal-add'); closeModal('modal-view'); }
-  });
-
-  // START
+  
   loadRecipes();
 </script>
 </body>
