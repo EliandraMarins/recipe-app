@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Recipe Book</title>
+  <title>My Recipe Book (Cloud)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
@@ -491,7 +491,6 @@
   <div id="list"></div>
 </main>
 
-<!-- Add / Edit modal -->
 <div class="overlay" id="modal-add" onclick="overlayClick(event,'modal-add')">
   <div class="modal">
     <div class="modal-head">
@@ -534,7 +533,6 @@
   </div>
 </div>
 
-<!-- View modal -->
 <div class="overlay" id="modal-view" onclick="overlayClick(event,'modal-view')">
   <div class="modal">
     <div class="modal-head">
@@ -561,152 +559,171 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+  // FIREBASE IMPORTS
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { 
-  getFirestore, collection, addDoc, getDocs, 
-  updateDoc, deleteDoc, doc, query, orderBy 
-} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { 
+    getFirestore, collection, addDoc, getDocs, 
+    updateDoc, deleteDoc, doc, query, orderBy 
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-// 1. Your Configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAJKH90y8jl9u3BHXZ9USQjysflqP-m8EE",
-  authDomain: "my-recipe-book-40408.firebaseapp.com",
-  projectId: "my-recipe-book-40408",
-  storageBucket: "my-recipe-book-40408.firebasestorage.app",
-  messagingSenderId: "297539206913",
-  appId: "1:297539206913:web:4e18919e82e3ed1f40e500",
-  measurementId: "G-HZT9ME12PF"
-};
-
-// 2. Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const recipesCol = collection(db, "recipes");
-
-// 3. Application State
-let recipes = [];
-let editingId = null;
-let viewingId = null;
-
-// 4. THE CORE FUNCTIONS (The "Teacher" explains: these are now 'async' because we wait for the internet)
-
-// Fetch all recipes from the Cloud
-async function loadRecipes() {
-  try {
-    // We ask Firebase for the 'recipes' collection, ordered by name
-    const q = query(recipesCol, orderBy("name"));
-    const querySnapshot = await getDocs(q);
-    
-    recipes = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-    
-    render(); 
-  } catch (error) {
-    console.error("Error loading recipes: ", error);
-    alert("Cloud connection failed. Check if you enabled Firestore in the console.");
-  }
-}
-
-// Save or Update a recipe in the Cloud
-window.save = async function() {
-  const name = document.getElementById('f-name').value.trim();
-  if (!name) { document.getElementById('f-name').focus(); return; }
-
-  const recipeData = {
-    name,
-    category: document.getElementById('f-category').value.trim(),
-    servings: document.getElementById('f-servings').value.trim(),
-    ingredients: document.getElementById('f-ingredients').value.trim(),
-    preparation: document.getElementById('f-preparation').value.trim(),
-    updatedAt: new Date()
+  // YOUR CONFIG
+  const firebaseConfig = {
+    apiKey: "AIzaSyAJKH90y8jl9u3BHXZ9USQjysflqP-m8EE",
+    authDomain: "my-recipe-book-40408.firebaseapp.com",
+    projectId: "my-recipe-book-40408",
+    storageBucket: "my-recipe-book-40408.firebasestorage.app",
+    messagingSenderId: "297539206913",
+    appId: "1:297539206913:web:4e18919e82e3ed1f40e500",
+    measurementId: "G-HZT9ME12PF"
   };
 
-  try {
-    if (editingId) {
-      // Update existing document
-      const docRef = doc(db, "recipes", editingId);
-      await updateDoc(docRef, recipeData);
-    } else {
-      // Create new document
-      await addDoc(recipesCol, recipeData);
+  // INITIALIZATION
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const recipesCol = collection(db, "recipes");
+
+  let recipes = [];
+  let editingId = null;
+  let viewingId = null;
+
+  // CLOUD LOGIC
+  async function loadRecipes() {
+    try {
+      const q = query(recipesCol, orderBy("name"));
+      const querySnapshot = await getDocs(q);
+      recipes = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      render();
+    } catch (e) {
+      console.error("Load failed", e);
     }
+  }
+
+  window.save = async function() {
+    const name = document.getElementById('f-name').value.trim();
+    if (!name) { document.getElementById('f-name').focus(); return; }
+
+    const data = {
+      name,
+      category: document.getElementById('f-category').value.trim(),
+      servings: document.getElementById('f-servings').value.trim(),
+      ingredients: document.getElementById('f-ingredients').value.trim(),
+      preparation: document.getElementById('f-preparation').value.trim()
+    };
+
+    try {
+      if (editingId) {
+        await updateDoc(doc(db, "recipes", editingId), data);
+      } else {
+        await addDoc(recipesCol, data);
+      }
+      closeModal('modal-add');
+      loadRecipes();
+    } catch (e) {
+      console.error("Save failed", e);
+    }
+  };
+
+  window.deleteRecipe = async function() {
+    if (!viewingId || !confirm('Delete from cloud?')) return;
+    try {
+      await deleteDoc(doc(db, "recipes", viewingId));
+      closeModal('modal-view');
+      loadRecipes();
+    } catch (e) {
+      console.error("Delete failed", e);
+    }
+  };
+
+  // UI LOGIC
+  window.render = function() {
+    const q = document.getElementById('search').value.trim().toLowerCase();
+    const filtered = q
+      ? recipes.filter(r => 
+          r.name.toLowerCase().includes(q) || 
+          (r.category || '').toLowerCase().includes(q)
+        )
+      : recipes;
+
+    const el = document.getElementById('list');
+    const count = document.getElementById('count');
+
+    if (!recipes.length) {
+      count.textContent = '';
+      el.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">🍳</div>
+          <h2>No recipes yet</h2>
+          <p>Start building your cloud collection.</p>
+          <button class="btn btn-primary" onclick="openAdd()">+ Add your first recipe</button>
+        </div>`;
+      return;
+    }
+
+    count.textContent = filtered.length + ' recipe' + (filtered.length !== 1 ? 's' : '');
     
-    closeModal('modal-add');
-    loadRecipes(); // Refresh the list
-  } catch (error) {
-    console.error("Error saving: ", error);
-  }
-}
+    el.innerHTML = '<div class="recipe-grid">' + filtered.map(r => `
+      <div class="recipe-card" onclick="openView('${r.id}')">
+        ${r.category ? `<div class="card-tag">${esc(r.category)}</div>` : ''}
+        <div class="card-name">${esc(r.name)}</div>
+        ${r.servings ? `<div class="card-servings">Serves ${esc(r.servings)}</div>` : ''}
+        <div class="card-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>`).join('') + '</div>';
+  };
 
-// Delete from the Cloud
-window.deleteRecipe = async function() {
-  if (!viewingId) return;
-  if (!confirm('Delete this recipe forever from the cloud?')) return;
+  window.openAdd = function() {
+    editingId = null;
+    document.getElementById('form-title').textContent = 'New recipe';
+    ['name','category','servings','ingredients','preparation'].forEach(f =>
+      document.getElementById('f-' + f).value = '');
+    openModal('modal-add');
+  };
 
-  try {
-    const docRef = doc(db, "recipes", viewingId);
-    await deleteDoc(docRef);
+  window.openView = function(id) {
+    viewingId = id;
+    const r = recipes.find(x => x.id === id);
+    if (!r) return;
+    document.getElementById('v-name').textContent = r.name;
+    document.getElementById('v-meta').innerHTML = `
+      ${r.category ? `<span class="pill accent">${esc(r.category)}</span>` : ''}
+      ${r.servings ? `<span class="pill">Serves ${esc(r.servings)}</span>` : ''}`;
+    document.getElementById('v-ingredients').innerHTML = (r.ingredients || '').split('\n')
+      .filter(Boolean).map(i => `<li>${esc(i)}</li>`).join('');
+    document.getElementById('v-prep').textContent = r.preparation;
+    openModal('modal-view');
+  };
+
+  window.editFromView = function() {
+    const r = recipes.find(x => x.id === viewingId);
+    if (!r) return;
     closeModal('modal-view');
-    loadRecipes();
-  } catch (error) {
-    console.error("Error deleting: ", error);
-  }
-}
+    editingId = r.id;
+    document.getElementById('form-title').textContent = 'Edit recipe';
+    document.getElementById('f-name').value = r.name;
+    document.getElementById('f-category').value = r.category || '';
+    document.getElementById('f-servings').value = r.servings || '';
+    document.getElementById('f-ingredients').value = r.ingredients || '';
+    document.getElementById('f-preparation').value = r.preparation || '';
+    openModal('modal-add');
+  };
 
-// 5. BOILERPLATE (Your UI logic remains similar)
+  // HELPERS
+  function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  window.openModal = (id) => document.getElementById(id).classList.add('active');
+  window.closeModal = (id) => document.getElementById(id).classList.remove('active');
+  window.overlayClick = (e, id) => { if (e.target === e.currentTarget) closeModal(id); };
 
-window.render = function() {
-  const grid = document.getElementById('recipe-grid');
-  grid.innerHTML = recipes.map(r => `
-    <div class="card" onclick="viewRecipe('${r.id}')">
-      <div class="card-category">${r.category || 'Uncategorized'}</div>
-      <h3 class="card-title">${r.name}</h3>
-      <div class="card-meta">${r.servings ? r.servings + ' servings' : ''}</div>
-    </div>
-  `).join('');
-}
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeModal('modal-add'); closeModal('modal-view'); }
+  });
 
-window.viewRecipe = function(id) {
-  const r = recipes.find(recipe => recipe.id === id);
-  if (!r) return;
-  viewingId = id;
-  document.getElementById('v-title').textContent = r.name;
-  document.getElementById('v-category').textContent = r.category || 'General';
-  document.getElementById('v-servings').textContent = r.servings || '-';
-  document.getElementById('v-ingredients').textContent = r.ingredients || 'No ingredients listed.';
-  document.getElementById('v-preparation').textContent = r.preparation || 'No preparation steps listed.';
-  openModal('modal-view');
-}
-
-window.openAddModal = function() {
-  editingId = null;
-  document.getElementById('modal-title').textContent = 'New Recipe';
-  document.getElementById('recipe-form').reset();
-  openModal('modal-add');
-}
-
-window.editRecipe = function() {
-  const r = recipes.find(recipe => recipe.id === viewingId);
-  if (!r) return;
-  closeModal('modal-view');
-  editingId = viewingId;
-  document.getElementById('modal-title').textContent = 'Edit Recipe';
-  document.getElementById('f-name').value = r.name;
-  document.getElementById('f-category').value = r.category;
-  document.getElementById('f-servings').value = r.servings;
-  document.getElementById('f-ingredients').value = r.ingredients;
-  document.getElementById('f-preparation').value = r.preparation;
-  openModal('modal-add');
-}
-
-window.openModal = (id) => document.getElementById(id).classList.add('active');
-window.closeModal = (id) => document.getElementById(id).classList.remove('active');
-
-// Initial Load
-loadRecipes();
+  // START
+  loadRecipes();
 </script>
 </body>
 </html>
